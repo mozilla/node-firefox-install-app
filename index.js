@@ -105,7 +105,7 @@ if (require.main === module) {
       },
       function(err, client){
         console.log("Connected and disconnected");
-        client.disconnect()
+        client.disconnect();
       })
       .catch(function(err) {
         console.log('catch', err, err.stack);
