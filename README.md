@@ -43,3 +43,18 @@ deployB2G({
   console.log("deployed");
 })
 ```
+
+### Start a simulator and deploy app (with an existing opened connection)
+
+```javascript
+var deployB2G = require('moz-deploy-b2g');
+
+deployB2G({
+  zip: 'nicola.zip',
+  manifestURL: 'manifest.webapp',
+  client: client
+}, function(err){
+  console.log("deployed");
+  client.disconnect();
+})
+```
