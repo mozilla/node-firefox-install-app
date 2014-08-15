@@ -19,16 +19,14 @@ Start a B2G and connect to it through [firefox-client](https://github.com/harthu
 var deployB2G = require('moz-deploy-b2g');
 
 // Callback style
-deployB2G('manifest.webapp', 'nicola.zip', function(err, client){
-  console.log("Connected and disconnected");
-  client.disconnect();
+deployB2G('manifest.webapp', 'nicola.zip', function(err){
+  console.log("deployed");
 })
 
 // Promises style
 deployB2G('manifest.webapp', 'nicola.zip')
-  .then(function(err, client){
-    console.log("Connected and disconnected");
-    client.disconnect();
+  .then(function(err){
+    console.log("deployed");
   })
 ```
 
@@ -41,8 +39,7 @@ deployB2G({
   port:8002,
   zip: 'nicola.zip',
   manifestURL: 'manifest.webapp'
-}, function(err, client){
-  console.log("Connected and disconnected");
-  client.disconnect();
+}, function(err){
+  console.log("deployed");
 })
 ```

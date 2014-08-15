@@ -53,6 +53,7 @@ function _deployB2G (opts, callback) {
 
   return install
     .then(function() {
+      if (opts.disconnect) opts.client.disconnect();
       if (callback) callback(null, opts.client);
       return opts.client;
     });
@@ -87,6 +88,8 @@ function deployB2G () {
     throw new Error('No manifest or zip file');
   }
 
+  if (!opts.client) opts.disconnect = true;
+
   return startB2G(opts)
     .then(function(client) {
       opts.client = opts.client || client;
@@ -97,19 +100,11 @@ function deployB2G () {
 
 if (require.main === module) {
   (function() {
-    deployB2G(
-      {
-        port:8002,
-        zip: '/Users/mozilla/Desktop/nicola/nicola.zip',
-        manifestURL: '/Users/mozilla/Desktop/nicola/manifest.webapp'
-      },
-      function(err, client){
-        console.log("Connected and disconnected");
-        client.disconnect();
-      })
-      .catch(function(err) {
-        console.log('catch', err, err.stack);
-      });
+
+    deployB2G('/Users/mozilla/Desktop/nicola/manifest.webapp', '/Users/mozilla/Desktop/nicola/nicola.zip', function(err, client){
+      console.log("Connected and disconnected");
+      
+    });
 
   })();
 }
