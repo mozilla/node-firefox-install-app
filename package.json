@@ -1,0 +1,25 @@
+{
+  "name": "moz-deploy-b2g",
+  "version": "0.0.1",
+  "description": "Deploy apps to FirefoxOS",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nicola/moz-deploy-b2g.git"
+  },
+  "author": "Nicola Greco <me@nicola.io> (http://nicolagreco.com/)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nicola/moz-deploy-b2g/issues"
+  },
+  "homepage": "https://github.com/nicola/moz-deploy-b2g",
+  "dependencies": {
+    "firefox-app-validator-manifest": "^1.0.5",
+    "firefox-client": "^0.2.0",
+    "moz-start-b2g": "0.0.6",
+    "q": "^1.0.1"
+  }
+}
