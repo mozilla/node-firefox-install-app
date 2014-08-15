@@ -4,6 +4,7 @@ var Manifest = require('firefox-app-validator-manifest');
 var ff = new Manifest();
 var fs = require('fs');
 var Q = require('q');
+var uuid = require('node-uuid');
 
 Q.longStackSupport = true;
 
@@ -40,7 +41,7 @@ function _deployB2G (opts, callback) {
   
   var install = webappsActor
     .then(function(webapps) {
-      var app_id = 'abc';
+      var app_id = uuid.v1();
       return Q.ninvoke(webapps, 'installPackaged', opts.zip, app_id);
     });
 
