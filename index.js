@@ -53,10 +53,10 @@ function _deployB2G (opts, callback) {
   }
 
   return install
-    .then(function() {
+    .then(function(result) {
       if (opts.disconnect) opts.client.disconnect();
-      if (callback) callback(null, opts.client);
-      return opts.client;
+      if (callback) callback(null, result);
+      return result;
     });
 }
 
@@ -102,8 +102,8 @@ function deployB2G () {
 if (require.main === module) {
   (function() {
 
-    deployB2G('/Users/mozilla/Desktop/nicola/manifest.webapp', '/Users/mozilla/Desktop/nicola/nicola.zip', function(err, client){
-      console.log("Connected and disconnected");
+    deployB2G('/Users/mozilla/Desktop/nicola/manifest.webapp', '/Users/mozilla/Desktop/nicola/nicola.zip', function(err, deploy){
+      console.log("Connected and disconnected", deploy);
       
     });
 

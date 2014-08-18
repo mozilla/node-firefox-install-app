@@ -1,6 +1,6 @@
 {
   "name": "moz-deploy-b2g",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Deploy apps to FirefoxOS",
   "main": "index.js",
   "scripts": {
