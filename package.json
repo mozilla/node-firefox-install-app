@@ -1,6 +1,6 @@
 {
   "name": "moz-deploy-b2g",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Deploy apps to FirefoxOS",
   "main": "index.js",
   "scripts": {
@@ -19,7 +19,7 @@
   "dependencies": {
     "firefox-app-validator-manifest": "^1.0.5",
     "firefox-client": "^0.2.0",
-    "moz-start-b2g": "0.0.6",
+    "moz-start-b2g": "0.0.7",
     "node-uuid": "^1.4.1",
     "q": "^1.0.1"
   }
