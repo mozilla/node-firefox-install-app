@@ -1,4 +1,5 @@
 var startB2G = require('moz-start-b2g');
+var findappB2G = require('moz-findapp-b2g');
 var FirefoxClient = require('firefox-client');
 var Manifest = require('firefox-app-validator-manifest');
 var ff = new Manifest();
@@ -42,19 +43,21 @@ function _deployB2G (opts, callback) {
   var install = webappsActor
     .then(function(webapps) {
       var app_id = uuid.v1();
-      return Q.ninvoke(webapps, 'installPackaged', opts.zip, app_id);
+      var installed = Q.ninvoke(webapps, 'installPackaged', opts.zip, app_id);
+      return Q.all([installed, webapps]);
     });
 
-  if (opts.launch) {
-    return Q.all([install, webappsActor])
-      .spread(function(install, webapps) {
-        return Q.ninvoke(webapps, 'launch', 'nicola');
+  if (opts.launch !== false) {
+    install = install.spread(function(installed, webapps) {
+      return Q.ninvoke(webapps, 'launch', 'app://'+installed+'/manifest.webapp').then(function() {
+        return [installed];
       });
+    });
   }
 
+
   return install
-    .then(function(result) {
-      if (opts.disconnect) opts.client.disconnect();
+    .spread(function(result) {
       if (callback) callback(null, result);
       return result;
     });
@@ -89,8 +92,6 @@ function deployB2G () {
     throw new Error('No manifest or zip file');
   }
 
-  if (!opts.client) opts.disconnect = true;
-
   return startB2G(opts)
     .then(function(client) {
       opts.client = opts.client || client;
@@ -105,7 +106,7 @@ if (require.main === module) {
     deployB2G('/Users/mozilla/Desktop/nicola/manifest.webapp', '/Users/mozilla/Desktop/nicola/nicola.zip', function(err, deploy){
       console.log("Connected and disconnected", deploy);
       
-    });
+    }).done();
 
   })();
 }
