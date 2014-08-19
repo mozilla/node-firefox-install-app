@@ -52,7 +52,7 @@ var FirefoxClient = require("firefox-client");
 
 var client = new FirefoxClient();
 
-client.connect(opts.port, function(err) {
+client.connect(1234, function(err) {
   deployB2G({
     zip: 'nicola.zip',
     manifestURL: 'manifest.webapp',
