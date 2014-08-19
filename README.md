@@ -48,13 +48,18 @@ deployB2G({
 
 ```javascript
 var deployB2G = require('moz-deploy-b2g');
+var FirefoxClient = require("firefox-client");
 
-deployB2G({
-  zip: 'nicola.zip',
-  manifestURL: 'manifest.webapp',
-  client: client
-}, function(err, appId){
-  console.log("deployed:", appId);
-  client.disconnect();
-})
+var client = new FirefoxClient();
+
+client.connect(opts.port, function(err) {
+  deployB2G({
+    zip: 'nicola.zip',
+    manifestURL: 'manifest.webapp',
+    client: client
+  }, function(err, appId){
+    console.log("deployed:", appId);
+    client.disconnect();
+  });
+});
 ```
