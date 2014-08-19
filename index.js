@@ -33,31 +33,37 @@ function validateManifest (manifestURL) {
 function _deployB2G (opts, callback) {
   // TODO: Validate the manifest
   // var validate = validateManifest(opts.manifestURL);
-  var validate = Q();
 
-  var webappsActor = validate
-    .then(function() {
-      return Q.ninvoke(opts.client, 'getWebapps');
-    });
-  
-  var install = webappsActor
+  var webappsActor = Q.ninvoke(opts.client, 'getWebapps')
+
+  return webappsActor
     .then(function(webapps) {
-      var app_id = uuid.v1();
-      var installed = Q.ninvoke(webapps, 'installPackaged', opts.zip, app_id);
-      return Q.all([installed, webapps]);
-    });
 
-  if (opts.launch !== false) {
-    install = install.spread(function(installed, webapps) {
-      return Q.ninvoke(webapps, 'launch', 'app://'+installed+'/manifest.webapp').then(function() {
-        return [installed];
-      });
-    });
-  }
+        var app_id = uuid.v1();
 
+        var promise = Q()
+        // remove
+          .then(function() {
+            // return Q.ninvoke(webapps, 'removePackaged', opts.zip, app_id);
+            return Q();
+          })
+        // install
+          .then(function() {
+            return Q.ninvoke(webapps, 'installPackaged', opts.zip, app_id);
+          });
 
-  return install
-    .spread(function(result) {
+        // launch
+        if (opts.launch !== false) {
+          promise = promise.then(function(appId) {
+            return Q.ninvoke(webapps, 'launch', 'app://'+appId+'/manifest.webapp')
+              .then(function() {
+                return appId;
+              });
+          });
+        }
+        return promise;
+    })
+    .then(function(result) {
       if (callback) callback(null, result);
       return result;
     });
