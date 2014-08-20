@@ -34,34 +34,33 @@ function _deployB2G (opts, callback) {
   // TODO: Validate the manifest
   // var validate = validateManifest(opts.manifestURL);
 
-  var webappsActor = Q.ninvoke(opts.client, 'getWebapps')
-
+  var webappsActor = Q.ninvoke(opts.client, 'getWebapps');
   return webappsActor
     .then(function(webapps) {
-
-        var app_id = uuid.v1();
-
-        var promise = Q()
+      var appId = uuid.v1();
+      return Q()
         // remove
-          .then(function() {
-            // return Q.ninvoke(webapps, 'removePackaged', opts.zip, app_id);
-            return Q();
-          })
-        // install
-          .then(function() {
-            return Q.ninvoke(webapps, 'installPackaged', opts.zip, app_id);
-          });
+        .then(function() {
 
+          return findappB2G(opts)
+            .then(function(app) {
+              return Q.ninvoke(webapps, 'uninstall', app.manifest.manifestURL);
+            })
+
+        })
+        // install
+        .then(function() {
+          return Q.ninvoke(webapps, 'installPackaged', opts.zip, appId);
+        })
         // launch
-        if (opts.launch !== false) {
-          promise = promise.then(function(appId) {
-            return Q.ninvoke(webapps, 'launch', 'app://'+appId+'/manifest.webapp')
-              .then(function() {
-                return appId;
-              });
-          });
-        }
-        return promise;
+        .then(function() {
+          if (opts.launch !== false) {
+            Q.ninvoke(webapps, 'launch', 'app://'+appId+'/manifest.webapp');
+          }
+        })
+        .then(function() {
+          return appId;
+        });
     })
     .then(function(result) {
       if (callback) callback(null, result);

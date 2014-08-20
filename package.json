@@ -19,6 +19,7 @@
   "dependencies": {
     "firefox-app-validator-manifest": "^1.0.5",
     "firefox-client": "^0.2.0",
+    "moz-findapp-b2g": "0.0.3",
     "moz-start-b2g": "0.0.7",
     "node-uuid": "^1.4.1",
     "q": "^1.0.1"
