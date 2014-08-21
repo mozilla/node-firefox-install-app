@@ -46,6 +46,9 @@ function _deployB2G (opts, callback) {
             .then(function(app) {
               return Q.ninvoke(webapps, 'uninstall', app.manifest.manifestURL);
             })
+            .catch(function(err) {
+              console.log(err);
+            })
 
         })
         // install
@@ -110,7 +113,7 @@ function deployB2G () {
 if (require.main === module) {
   (function() {
 
-    deployB2G('/Users/mozilla/Desktop/nicola/manifest.webapp', '/Users/mozilla/Desktop/nicola/nicola.zip', function(err, deploy){
+    deployB2G('/Users/mozilla/Desktop/nicola/manifest.webapp', '/Users/mozilla/Desktop/nicola/app.zip', function(err, deploy){
       console.log("Connected and disconnected", deploy);
       
     }).done();

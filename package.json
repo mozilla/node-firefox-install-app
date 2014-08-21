@@ -1,6 +1,6 @@
 {
   "name": "moz-deploy-b2g",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Deploy apps to FirefoxOS",
   "main": "index.js",
   "scripts": {
@@ -18,9 +18,9 @@
   "homepage": "https://github.com/nicola/moz-deploy-b2g",
   "dependencies": {
     "firefox-app-validator-manifest": "^1.0.5",
-    "firefox-client": "^0.2.0",
-    "moz-findapp-b2g": "0.0.4",
-    "moz-start-b2g": "0.0.7",
+    "firefox-client": "^0.2.1",
+    "moz-findapp-b2g": "0.0.5",
+    "moz-start-b2g": "0.0.8",
     "node-uuid": "^1.4.1",
     "q": "^1.0.1"
   }
