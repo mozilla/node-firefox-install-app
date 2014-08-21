@@ -92,6 +92,7 @@ function deployB2G () {
     callback = args[args.length-1];
   }
 
+
   // Missing manifest or zip
   if (!opts.manifestURL || !opts.zip) {
     throw new Error('No manifest or zip file');
@@ -100,7 +101,8 @@ function deployB2G () {
   return startB2G(opts)
     .then(function(client) {
       opts.client = opts.client || client;
-    }).then(function() {
+    })
+    .then(function() {
       return _deployB2G(opts, callback);
     });
 }
