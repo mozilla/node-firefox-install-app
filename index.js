@@ -105,8 +105,6 @@ function deployB2G () {
   return startB2G(opts)
     .then(function(client) {
       opts.client = opts.client || client;
-    })
-    .then(function() {
       return _deployB2G(opts, callback);
     });
 }
