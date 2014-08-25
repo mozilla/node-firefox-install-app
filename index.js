@@ -35,39 +35,40 @@ function _deployB2G (opts, callback) {
   // var validate = validateManifest(opts.manifestURL);
 
   var webappsActor = Q.ninvoke(opts.client, 'getWebapps');
-  return webappsActor
-    .then(function(webapps) {
-      var appId = uuid.v1();
-      return Q()
-        // remove
-        .then(function() {
+  var appActor = findappB2G(opts);
+  var appId = uuid.v1();
 
-          return findappB2G(opts)
-            .then(function(app) {
-              return Q.ninvoke(webapps, 'uninstall', app.manifest.manifestURL);
-            })
-            .catch(function(err) {
-              console.log(err);
-            })
-
-        })
-        // install
-        .then(function() {
-          return Q.ninvoke(webapps, 'installPackaged', opts.zip, appId);
-        })
-        // launch
-        .then(function() {
-          if (opts.launch !== false) {
-            Q.ninvoke(webapps, 'launch', 'app://'+appId+'/manifest.webapp');
-          }
-        })
-        .then(function() {
-          return appId;
-        });
+  function uninstall () {
+    return Q.all([webappsActor, appActor]).spread(function(webapps, app) {
+      return Q.ninvoke(webapps, 'uninstall', app.manifest.manifestURL);
     })
-    .then(function(result) {
-      if (callback) callback(null, result);
-      return result;
+    .catch(function(err) {
+      console.log(err);
+    });
+  }
+
+  function install () {
+    return webappsActor.then(function(webapps) {
+      return Q.ninvoke(webapps, 'installPackaged', opts.zip, appId);
+    });
+  }
+
+  function launch() {
+    if (opts.launch !== false) {
+      return webappsActor.then(function(webapps) {
+        return Q.ninvoke(webapps, 'launch', 'app://'+appId+'/manifest.webapp');
+      });
+    }
+    return Q();
+  }
+
+  return Q()
+    .then(uninstall)
+    .then(install)
+    .then(launch)
+    .then(function() {
+      if (callback) callback(null, appId);
+      return appId;
     });
 }
 
