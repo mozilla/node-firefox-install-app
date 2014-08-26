@@ -1,5 +1,5 @@
-var startB2G = require('fxos-start');
-var findappB2G = require('fxos-findapp');
+var start = require('fxos-start');
+var findApp = require('fxos-findapp');
 var FirefoxClient = require('firefox-client');
 var Manifest = require('firefox-app-validator-manifest');
 var ff = new Manifest();
@@ -78,12 +78,12 @@ function deployB2G () {
 
   /* Promises */
 
-  var simulator = startB2G(opts);
+  var simulator = start(opts);
   var webappsActor = Q.when(simulator, function() {
     return Q.ninvoke(opts.client, 'getWebapps');
   });
   var appActor = Q.when(simulator, function() {
-    return findappB2G(opts);
+    return findApp(opts);
   });
 
   function uninstall () {
@@ -91,7 +91,7 @@ function deployB2G () {
       return Q.ninvoke(webapps, 'uninstall', app.manifest.manifestURL);
     })
     .catch(function(err) {
-      console.log(err);
+      console.log(err, err.stack);
     });
   }
 
