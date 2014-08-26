@@ -1,5 +1,5 @@
 {
-  "name": "moz-deploy-b2g",
+  "name": "fxos-deploy",
   "version": "0.1.0",
   "description": "Deploy apps to FirefoxOS",
   "main": "index.js",
@@ -8,19 +8,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/nicola/moz-deploy-b2g.git"
+    "url": "https://github.com/nicola/fxos-deploy.git"
   },
   "author": "Nicola Greco <me@nicola.io> (http://nicolagreco.com/)",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/nicola/moz-deploy-b2g/issues"
+    "url": "https://github.com/nicola/fxos-deploy/issues"
   },
-  "homepage": "https://github.com/nicola/moz-deploy-b2g",
+  "homepage": "https://github.com/nicola/fxos-deploy",
   "dependencies": {
     "firefox-app-validator-manifest": "^1.0.5",
     "firefox-client": "^0.2.3",
-    "moz-findapp-b2g": "^0.1.0",
-    "moz-start-b2g": "^0.1.0",
+    "fxos-findapp": "^0.1.0",
+    "fxos-start": "^0.1.0",
     "node-uuid": "^1.4.1",
     "q": "^1.0.1"
   }

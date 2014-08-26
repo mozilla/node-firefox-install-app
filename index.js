@@ -1,5 +1,5 @@
-var startB2G = require('moz-start-b2g');
-var findappB2G = require('moz-findapp-b2g');
+var startB2G = require('fxos-start');
+var findappB2G = require('fxos-findapp');
 var FirefoxClient = require('firefox-client');
 var Manifest = require('firefox-app-validator-manifest');
 var ff = new Manifest();

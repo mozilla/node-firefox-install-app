@@ -1,11 +1,11 @@
-# moz-deploy-b2g
+# fxos-deploy
 
 Deploy Firefox OS application to simulator
 
 ## Install
 
 ```
-$ npm install moz-deploy-b2g
+$ npm install fxos-deploy
 ```
 
 ## Usage
@@ -13,18 +13,18 @@ $ npm install moz-deploy-b2g
 
 ### Start a simulator and deploy app (simple way)
 
-Start a B2G and connect to it through [firefox-client](https://github.com/harthur/firefox-client) by returning `client`.
+Start a FirefoxOS simulator and connect to it through [firefox-client](https://github.com/harthur/firefox-client) by returning `client`.
 
 ```javascript
-var deployB2G = require('moz-deploy-b2g');
+var deploy = require('fxos-deploy');
 
 // Callback style
-deployB2G('manifest.webapp', 'nicola.zip', function(err, appId){
+deploy('manifest.webapp', 'nicola.zip', function(err, appId){
   console.log("deployed:", appId);
 })
 
 // Promises style
-deployB2G('manifest.webapp', 'nicola.zip')
+deploy('manifest.webapp', 'nicola.zip')
   .then(function(appId){
     console.log("deployed:", appId);
   })
@@ -33,9 +33,9 @@ deployB2G('manifest.webapp', 'nicola.zip')
 ### Start a simulator and deploy app (with settings)
 
 ```javascript
-var deployB2G = require('moz-deploy-b2g');
+var deploy = require('fxos-deploy');
 
-deployB2G({
+deploy({
   port:8002,
   zip: 'nicola.zip',
   manifestURL: 'manifest.webapp'
@@ -47,13 +47,13 @@ deployB2G({
 ### Start a simulator and deploy app (with an existing opened connection)
 
 ```javascript
-var deployB2G = require('moz-deploy-b2g');
+var deploy = require('fxos-deploy');
 var FirefoxClient = require("firefox-client");
 
 var client = new FirefoxClient();
 
 client.connect(1234, function(err) {
-  deployB2G({
+  deploy({
     zip: 'nicola.zip',
     manifestURL: 'manifest.webapp',
     client: client
