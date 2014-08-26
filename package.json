@@ -19,7 +19,7 @@
   "dependencies": {
     "firefox-app-validator-manifest": "^1.0.5",
     "firefox-client": "^0.2.3",
-    "fxos-findapp": "^0.1.0",
+    "fxos-findapp": "^0.1.1",
     "fxos-start": "^0.1.0",
     "node-uuid": "^1.4.1",
     "q": "^1.0.1"
