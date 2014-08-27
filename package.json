@@ -1,6 +1,6 @@
 {
   "name": "fxos-deploy",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Deploy apps to FirefoxOS",
   "main": "index.js",
   "scripts": {
@@ -22,6 +22,10 @@
     "fxos-findapp": "^0.1.1",
     "fxos-start": "^0.1.0",
     "node-uuid": "^1.4.1",
+    "nomnom": "^1.8.0",
     "q": "^1.0.1"
+  },
+  "bin": {
+    "fxos-deploy": "./bin/fxos-deploy.js"
   }
 }

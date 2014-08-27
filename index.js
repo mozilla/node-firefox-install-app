@@ -91,7 +91,7 @@ function deployB2G () {
       return Q.ninvoke(webapps, 'uninstall', app.manifest.manifestURL);
     })
     .catch(function(err) {
-      console.log(err, err.stack);
+      console.log("WARN fxos-deploy:",err);
     });
   }
 
@@ -118,15 +118,4 @@ function deployB2G () {
       if (callback) callback(null, appId);
       return appId;
     });
-}
-
-if (require.main === module) {
-  (function() {
-
-    deployB2G('/Users/mozilla/Desktop/nicola/manifest.webapp', '/Users/mozilla/Desktop/nicola/app.zip', function(err, deploy){
-      console.log("Connected and disconnected", deploy);
-      
-    }).done();
-
-  })();
 }
