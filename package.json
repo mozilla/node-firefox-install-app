@@ -29,12 +29,15 @@
     "firefox-app-validator-manifest": "^1.0.5",
     "firefox-client": "^0.2.3",
     "fxos-findapp": "^0.1.1",
-    "fxos-start": "^0.1.0",
     "node-uuid": "^1.4.1",
     "nomnom": "^1.8.0",
     "q": "^1.0.1"
   },
   "bin": {
     "fxos-deploy": "./bin/fxos-deploy.js"
+  },
+  "devDependencies": {
+    "mocha": "^1.21.4",
+    "should": "^4.0.4"
   }
 }

@@ -30,13 +30,6 @@ function validateManifest (manifestURL) {
   return defer.promise;
 }
 
-function _deployB2G (opts, callback) {
-  // TODO: Validate the manifest
-  // var validate = validateManifest(opts.manifestURL);
-
-  
-}
-
 function deployB2G () {
 
   var args = arguments;
