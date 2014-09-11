@@ -41,6 +41,6 @@ Q().then(function(){
     });
   })
   .catch(function(err) {
-    console.log("Error", err);
+    console.log("Error", err.stack);
     return;
   });

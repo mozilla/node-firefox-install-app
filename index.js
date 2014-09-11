@@ -1,4 +1,4 @@
-var start = require('fxos-start');
+var Connect = require('fxos-connect');
 var findApp = require('fxos-findapp');
 var FirefoxClient = require('firefox-client');
 var Manifest = require('firefox-app-validator-manifest');
@@ -6,6 +6,7 @@ var ff = new Manifest();
 var fs = require('fs');
 var Q = require('q');
 var uuid = require('node-uuid');
+var __ = require('underscore');
 
 Q.longStackSupport = true;
 
@@ -71,12 +72,12 @@ function deployB2G () {
 
   /* Promises */
 
-  var simulator = start(opts);
-  var webappsActor = Q.when(simulator, function() {
-    return Q.ninvoke(opts.client, 'getWebapps');
+  var simulator = Connect(__(opts).extend({connect: true}));
+  var webappsActor = Q.when(simulator, function(sim) {
+    return Q.ninvoke(sim.client, 'getWebapps');
   });
-  var appActor = Q.when(simulator, function() {
-    return findApp(opts);
+  var appActor = Q.when(simulator, function(sim) {
+    return findApp(sim);
   });
 
   function uninstall () {
@@ -109,9 +110,13 @@ function deployB2G () {
     .then(launch)
     .then(function() {
       if (!keepAlive) {
-        console.log("deploy disconnecting")
-        opts.client.disconnect();
+        return simulator
+          .then(function(sim) {
+            sim.client.disconnect();
+          });
       }
+    })
+    .then(function() {
       if (callback) callback(null, appId);
       return appId;
     });

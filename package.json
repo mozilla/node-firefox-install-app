@@ -31,7 +31,8 @@
     "fxos-findapp": "^0.1.1",
     "node-uuid": "^1.4.1",
     "nomnom": "^1.8.0",
-    "q": "^1.0.1"
+    "q": "^1.0.1",
+    "underscore": "^1.7.0"
   },
   "bin": {
     "fxos-deploy": "./bin/fxos-deploy.js"
