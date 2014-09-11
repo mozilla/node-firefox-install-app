@@ -7,6 +7,7 @@ var fs = require('fs');
 var Q = require('q');
 var uuid = require('node-uuid');
 var __ = require('underscore');
+var path = require('path')
 
 Q.longStackSupport = true;
 
@@ -64,6 +65,9 @@ function deployB2G () {
     throw new Error('No manifest or zip file');
   }
 
+  opts.manifestURL = path.resolve(opts.manifestURL);
+  opts.zip = path.resolve(opts.zip);
+
   // If no client is passed, it must connect through FirefoxClient
   var keepAlive = opts.client ? true : false;
 
@@ -77,7 +81,7 @@ function deployB2G () {
     return Q.ninvoke(sim.client, 'getWebapps');
   });
   var appActor = Q.when(simulator, function(sim) {
-    return findApp(sim);
+    return findApp(__.extend(opts, sim));
   });
 
   function uninstall () {
