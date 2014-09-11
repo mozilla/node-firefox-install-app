@@ -71,7 +71,7 @@ function deployB2G () {
   }
 
   // If no client is passed, it must connect through FirefoxClient
-  if (!opts.client) opts.connect = true;
+  var keepAlive = opts.client ? true : false;
 
   // UUID of the app
   var appId = uuid.v1();
@@ -115,6 +115,10 @@ function deployB2G () {
     .then(install)
     .then(launch)
     .then(function() {
+      if (!keepAlive) {
+        console.log("deploy disconnecting")
+        opts.client.disconnect();
+      }
       if (callback) callback(null, appId);
       return appId;
     });

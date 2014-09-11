@@ -6,6 +6,14 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "keywords": [
+    "firefox",
+    "developer tools",
+    "b2g",
+    "firefoxos",
+    "fxos",
+    "webapps"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/nicola/fxos-deploy.git"
@@ -17,6 +25,7 @@
   },
   "homepage": "https://github.com/nicola/fxos-deploy",
   "dependencies": {
+    "clone": "^0.1.18",
     "firefox-app-validator-manifest": "^1.0.5",
     "firefox-client": "^0.2.3",
     "fxos-findapp": "^0.1.1",
