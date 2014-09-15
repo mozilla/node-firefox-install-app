@@ -25,9 +25,8 @@
   },
   "homepage": "https://github.com/nicola/fxos-deploy",
   "dependencies": {
-    "clone": "^0.1.18",
     "firefox-app-validator-manifest": "^1.0.5",
-    "firefox-client": "^0.2.3",
+    "firefox-client": "^0.3.0",
     "fxos-findapp": "^0.2.0",
     "node-uuid": "^1.4.1",
     "nomnom": "^1.8.0",
