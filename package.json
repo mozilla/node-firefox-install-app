@@ -1,6 +1,6 @@
 {
   "name": "fxos-deploy",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Deploy apps to FirefoxOS",
   "main": "index.js",
   "scripts": {
@@ -28,7 +28,7 @@
     "clone": "^0.1.18",
     "firefox-app-validator-manifest": "^1.0.5",
     "firefox-client": "^0.2.3",
-    "fxos-findapp": "^0.1.1",
+    "fxos-findapp": "^0.2.0",
     "node-uuid": "^1.4.1",
     "nomnom": "^1.8.0",
     "q": "^1.0.1",
