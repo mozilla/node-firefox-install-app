@@ -3,7 +3,7 @@
 var fs = require('fs');
 var path = require('path');
 var Q = require('q');
-var deploy = require('../index');
+var deploy = require('../command');
 
 var opts = require("nomnom")
   .option('manifestURL', {
@@ -34,13 +34,6 @@ if (!opts.manifestURL) {
   opts.manifestURL = path.resolve('./manifest.webapp');
 }
 
-Q().then(function(){
-    deploy(opts)
-    .then(function(app) {
-      console.log("App installed with UUID:", app);
-    });
-  })
-  .catch(function(err) {
-    console.log("Error", err.stack);
-    return;
-  });
+deploy(opts, function(err, result) {
+  console.log("App installed with UUID:", result.value);
+});
