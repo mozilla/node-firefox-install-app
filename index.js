@@ -1,5 +1,5 @@
 var Connect = require('fxos-connect');
-var findApp = require('fxos-findapp');
+var FindApp = require('fxos-findapp');
 var FirefoxClient = require('firefox-client');
 var fs = require('fs');
 var Q = require('q');
@@ -24,7 +24,7 @@ function deployB2G (opts, callback) {
   // UUID of the app
   var appId = uuid.v1();
   var webappsActor = Q.ninvoke(opts.client, 'getWebapps');
-  var appActor = findApp(opts);
+  var appActor = FindApp(opts);
 
   function uninstall () {
     return Q.all([webappsActor, appActor]).spread(function(webapps, app) {
