@@ -15,11 +15,10 @@ function DeployCommand(opts, beforeCallback, afterCallback) {
   Connect(opts, function(err, sim) {
     opts.client = sim.client;
     Deploy(opts, function(err, appId) {
-      console.log("deploy")
       beforeCallback(err, {value:appId, client:opts.client}, function(err) {
         sim.client.disconnect();
         if (afterCallback) afterCallback(err, appId);
       });
     }).done();
-  }).done()
+  }).done();
 }
