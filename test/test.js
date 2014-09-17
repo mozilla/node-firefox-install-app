@@ -2,6 +2,7 @@ var assert = require("assert");
 var should = require("should");
 var Deploy = require("../");
 var Ports = require("fx-ports");
+var Connect = require("fxos-connect");
 var Q = require('q');
 
 
@@ -18,15 +19,20 @@ describe('fxos-deploy', function(){
   describe('when no open simulator', function(){
 
     it('should return app id', function(done) {
-      Deploy({
+
+      Connect(function(err, sim) {
+        return Deploy({
           manifestURL: './test/sampleapp/manifest.webapp',
-          zip: './test/sampleapp/build/app.zip'
+          zip: './test/sampleapp/build/app.zip',
+          client: sim.client
         })
         .then(function(sim) {
           sim.should.be.type('string');
         })
         .then(done)
         .fail(done);
+      }).done()
+
     });
 
   });
