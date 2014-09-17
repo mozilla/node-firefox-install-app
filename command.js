@@ -4,14 +4,22 @@ var __ = require('underscore');
 
 module.exports = DeployCommand;
 
-function DeployCommand(opts, callback) {
+function DeployCommand(opts, beforeCallback, afterCallback) {
 
-  Connect(opts, function(sim) {
+  opts = opts || {};
+  if (!beforeCallback) {
+    beforeCallback = function (err, result, next) { next() }
+  }
+
+  opts.connect = true;
+  Connect(opts, function(err, sim) {
     opts.client = sim.client;
     Deploy(opts, function(err, appId) {
-      opts.callback(err, appId, client, function(err) {
+      console.log("deploy")
+      beforeCallback(err, {value:appId, client:opts.client}, function(err) {
         sim.client.disconnect();
+        if (afterCallback) afterCallback(err, appId);
       });
-    });
-  })
+    }).done();
+  }).done()
 }
