@@ -34,6 +34,7 @@ if (!opts.manifestURL) {
   opts.manifestURL = path.resolve('./manifest.webapp');
 }
 
-deploy(opts, function(err, result) {
+deploy(opts, function(err, result, done) {
   console.log("App installed with UUID:", result.value);
+  done();
 });
