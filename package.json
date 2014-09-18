@@ -1,6 +1,6 @@
 {
   "name": "fxos-deploy",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "description": "Deploy apps to FirefoxOS",
   "main": "index.js",
   "scripts": {
@@ -27,8 +27,8 @@
   "dependencies": {
     "firefox-app-validator-manifest": "^1.0.5",
     "firefox-client": "^0.3.0",
-    "fxos-connect": "^0.2.1",
-    "fxos-findapp": "^0.2.0",
+    "fxos-connect": "^0.3.0",
+    "fxos-findapp": "^0.3.0",
     "node-uuid": "^1.4.1",
     "nomnom": "^1.8.0",
     "q": "^1.0.1",
@@ -38,6 +38,7 @@
     "fxos-deploy": "./bin/fxos-deploy.js"
   },
   "devDependencies": {
+    "fx-ports": "^0.3.0",
     "mocha": "^1.21.4",
     "should": "^4.0.4"
   }
