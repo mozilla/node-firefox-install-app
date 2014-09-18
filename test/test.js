@@ -6,22 +6,6 @@ var Ports = require("fx-ports");
 var Connect = require("fxos-connect");
 var Q = require('q');
 
-describe('fxos-deploy/command', function(done) {
-  this.timeout(10000);
-
-  it('should deploy app and disconnect', function(done) {
-    DeployCmd({
-      manifestURL: './test/sampleapp/manifest.webapp',
-      zip: './test/sampleapp/build/app.zip'
-    }, function(err, result, next) {
-      
-      result.value.should.be.type('string');
-      result.client.should.be.ok;
-      next();
-    }, done);
-  });
-});
-
 describe('fxos-deploy', function(){
   this.timeout(10000);
   afterEach(function() {
@@ -49,6 +33,36 @@ describe('fxos-deploy', function(){
         .fail(done);
       }).done();
 
+    });
+
+  });
+
+
+  describe('fxos-deploy/command', function(done) {
+
+    it('should deploy app and disconnect', function(done) {
+      DeployCmd({
+        manifestURL: './test/sampleapp/manifest.webapp',
+        zip: './test/sampleapp/build/app.zip'
+      }, function(err, result, next) {
+        
+        result.value.should.be.type('string');
+        result.client.should.be.ok;
+        next();
+      }, done);
+    });
+
+    it('should connect to a specific port', function(done) {
+      DeployCmd({
+        manifestURL: './test/sampleapp/manifest.webapp',
+        zip: './test/sampleapp/build/app.zip',
+        port: 8181
+      }, function(err, result, next) {
+        Ports({b2g:true}, function(err, instances) {
+          instances[0].port.should.equal(8181);
+          next();
+        })
+      }, done);
     });
 
   });

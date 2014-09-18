@@ -19,6 +19,47 @@ var opts = require("nomnom")
     flag: true,
     help: 'Port of FirefoxOS'
   })
+    .option('port', {
+    abbr: 'p',
+    help: 'Port of FirefoxOS'
+  })
+  .option('force', {
+    abbr: 'f',
+    help: 'Kill other simulators on this port',
+    flag: true
+  })
+  .option('verbose', {
+    help: 'Set the output level to verbose',
+    flag: true
+  })
+  .option('bin', {
+    help: 'Set external B2G bin',
+  })
+  .option('profile', {
+    help: 'Set external B2G profile',
+  })
+  .option('release', {
+    list: true,
+    help: 'Release of FirefoxOS to filter',
+    metavar: '<release>',
+    type: 'string'
+  })
+  .option('exit', {
+    help: 'Exit after startup',
+    flag: true
+  })
+  .option('stdin', {
+    help: 'The path where stdin of the simulator will be redirected to',
+    metavar: '<stdin filepath>'
+  })
+  .option('stdout', {
+    help: 'The path where stdout of the simulator will be redirected to',
+    metavar: '<stdout filepath>'
+  })
+  .option('stderr', {
+    help: 'The path where stderr of the simulator will be redirected to',
+    metavar: '<stderr filepath>'
+  })
   .option('version', {
     flag: true,
     help: 'Print version and exit',
