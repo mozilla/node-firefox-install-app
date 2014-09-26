@@ -50,12 +50,13 @@ function deployB2G (opts, callback) {
     return Q();
   }
 
-  return Q()
-    .then(uninstall)
+  var promise = uninstall()
     .then(install)
     .then(launch)
-    .then(function() {
-      if (callback) callback(null, appId);
+    .then(function(a) {
       return appId;
     });
+
+  promise.nodeify(callback);
+  return promise;
 }
