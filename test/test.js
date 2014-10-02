@@ -31,7 +31,7 @@ describe('fxos-deploy', function(){
         })
         .then(done)
         .fail(done);
-      }).done();
+      });
 
     });
 

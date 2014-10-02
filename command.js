@@ -19,6 +19,6 @@ function DeployCommand(opts, beforeCallback, afterCallback) {
         sim.client.disconnect();
         if (afterCallback) afterCallback(err, appId);
       });
-    }).done();
-  }).done();
+    })
+  })
 }
