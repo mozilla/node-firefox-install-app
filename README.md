@@ -1,6 +1,6 @@
 # fxos-deploy
 
-Deploy Firefox OS application to simulator
+Deploy apps to FirefoxOS in NodeJS/CLI
 
 ## Install
 
