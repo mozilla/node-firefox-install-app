@@ -75,6 +75,11 @@ if (!opts.manifestURL) {
 }
 
 deploy(opts, function(err, result, done) {
+  if (err) {
+    console.log(err);
+    return;
+  }
+
   console.log("App installed with UUID:", result.value);
   done();
 });
