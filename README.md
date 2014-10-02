@@ -6,19 +6,41 @@ Deploy Firefox OS application to simulator
 
 ```bash
 $ npm install fxos-deploy
-# add -g for command-line
+
+# command line
 $ npm install -g fxos-deploy
 ```
 
 ## Usage
 
-Start a FirefoxOS simulator and connect to it through [firefox-client](https://github.com/harthur/firefox-client) by returning `client`.
-
 ### Command line
 
 ![fxos-deploy](https://raw.githubusercontent.com/nicola/fxos-deploy/master/docs/fxos-deploy.gif)
 
+```bash
+Usage: fxos-deploy [manifestURL] [options]
+
+manifestURL     App manifest.webapp to deploy
+
+Options:
+   --zip                        Zip file containing the app
+   -p, --port                   Port of FirefoxOS
+   -f, --force                  Kill other simulators on this port
+   --verbose                    Set the output level to verbose
+   --bin                        Set external B2G bin
+   --profile                    Set external B2G profile
+   --release <release>          Release of FirefoxOS to filter
+   --exit                       Exit after startup
+   --stdin <stdin filepath>     The path where stdin of the simulator will be redirected to
+   --stdout <stdout filepath>   The path where stdout of the simulator will be redirected to
+   --stderr <stderr filepath>   The path where stderr of the simulator will be redirected to
+   --version                    Print version and exit
+```
+
 ### Node library
+
+Start a FirefoxOS simulator and connect to it through [firefox-client](https://github.com/harthur/firefox-client) by returning `client`.
+
 
 #### Callback
 
