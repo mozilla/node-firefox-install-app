@@ -2,6 +2,8 @@
 
 Deploy apps to FirefoxOS in NodeJS/CLI
 
+This is part of [node-fxos](https://github.com/nicola/node-fxos)' project.
+
 ## Install
 
 ```bash
