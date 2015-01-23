@@ -1,146 +1,113 @@
-# fxos-deploy
+# node-firefox-install-app [![Build Status](https://secure.travis-ci.org/mozilla/node-firefox-install-app.png?branch=master)](http://travis-ci.org/mozilla/node-firefox-install-app)
 
-Deploy apps to FirefoxOS in NodeJS/CLI
+> Install an app on a runtime.
 
-This is part of [node-fxos](https://github.com/nicola/node-fxos)' project.
+This is part of the [node-firefox](https://github.com/mozilla/node-firefox) project.
 
-## Install
+**NOTE**
+
+*This is a work in progress. Things will probably be missing and broken while we move from `fxos-deploy` to `node-firefox-install-app`. Please have a look at the [existing issues](https://github.com/mozilla/node-firefox-install-app/issues), and/or [file more](https://github.com/mozilla/node-firefox-install-app/issues/new) if you find any! :-)*
+
+## Installation
+
+### From git
 
 ```bash
-$ npm install fxos-deploy
-
-# command line
-$ npm install -g fxos-deploy
+git clone https://github.com/mozilla/node-firefox-install-app.git
+cd node-firefox-install-app
+npm install
 ```
+
+If you want to update later on:
+
+```bash
+cd node-firefox-install-app
+git pull origin master
+npm install
+```
+
+### npm
+
+<!--
+```bash
+npm install node-firefox-install-app
+```
+-->
+
+This module is not on npm yet.
 
 ## Usage
 
-### Command line
+```javascript
+installApp(options) // returns a Promise
+```
 
-![fxos-deploy](https://raw.githubusercontent.com/nicola/fxos-deploy/master/docs/fxos-deploy.gif)
+where `options` is a plain `Object` which must contain the following:
+
+* `manifest`: the manifest contents, in JSON format
+* `client`: the remote client where we want to find if this app is installed
+
+If no `options` are provided, or if `options` is an empty `Object` (`{}`), then `findApp` will fail (how can you find *you don't know what app exactly* in *you don't know where*?)
+
+
+### Finding apps in simulators, using the manifest JSON contents
+
+```javascript
+var findApp = require('node-firefox-install-app');
+var startSimulator = require('node-firefox-start-simulator');
+var manifestJSON = loadJSON('manifest.webapp');
+
+startSimulator().then(function(client) {
+
+  findApp({
+    manifest: manifestJSON,
+    client: client
+  }).then(function(apps) {
+    if(apps.length === 0) {
+      console.log('Not installed');
+    }
+  });
+
+}, onError);
+
+
+function onError(err) {
+  console.error(err);
+}
+
+```
+
+You can have a look at the `examples` folder for a complete example.
+
+## Running the tests
+
+After installing, you can simply run the following from the module folder:
 
 ```bash
-Usage: fxos-deploy [manifestURL] [options]
-
-manifestURL     App manifest.webapp to deploy
-
-Options:
-   --zip                        Zip file containing the app
-   -p, --port                   Port of FirefoxOS
-   -f, --force                  Kill other simulators on this port
-   --verbose                    Set the output level to verbose
-   --bin                        Set external B2G bin
-   --profile                    Set external B2G profile
-   --release <release>          Release of FirefoxOS to filter
-   --exit                       Exit after startup
-   --stdin <stdin filepath>     The path where stdin of the simulator will be redirected to
-   --stdout <stdout filepath>   The path where stdout of the simulator will be redirected to
-   --stderr <stderr filepath>   The path where stderr of the simulator will be redirected to
-   --version                    Print version and exit
+npm test
 ```
 
-### Node library
+To add a new unit test file, create a new file in the `tests/unit` folder. Any file that matches `test.*.js` will be run as a test by the appropriate test runner, based on the folder location.
 
-Start a FirefoxOS simulator and connect to it through [firefox-client](https://github.com/harthur/firefox-client) by returning `client`.
+We use `gulp` behind the scenes to run the test; if you don't have it installed globally you can use `npm gulp` from inside the project's root folder to run `gulp`.
 
+### Code quality and style
 
-#### Callback
+Because we have multiple contributors working on our projects, we value consistent code styles. It makes it easier to read code written by many people! :-)
 
-```javascript
-// client from firefox-client or fxos-connect or fxos-start
-var deploy = require('fxos-deploy');
-/* ... */
-deploy({
-  manifestURL: 'manifest.webapp',
-  zip:'nicola.zip',
-  client: client
-}, function(err, appId){
-  console.log("deployed with ID:", appId);
-})
-```
+Our tests include unit tests as well as code quality ("linting") tests that make sure our test pass a style guide and [JSHint](http://jshint.com/). Instead of submitting code with the wrong indentation or a different style, run the tests and you will be told where your code quality/style differs from ours and instructions on how to fix it.
 
-#### Promise
+## History
 
-```javascript
-/* ... */
-deploy({
-    manifestURL: 'manifest.webapp',
-    zip:'nicola.zip',
-    client: sim.client
-  })
-  .then(function(appId) {})
-  .fail(function(err) {})
-```
+This is based on initial work on [fxos-findapp](https://github.com/nicola/fxos-findapp) by Nicola Greco.
 
-#### Command
+## License
 
-This handles connection and disconnection wrapping a callback in between
+This program is free software; it is distributed under an
+[Apache License](https://github.com/mozilla/node-firefox-install-app/blob/master/LICENSE).
 
-```javascript
-var deploy = require('fxos-deploy/command');
-deploy({
-  port:8002,
-  zip: 'nicola.zip',
-  manifestURL: 'manifest.webapp'
-}, function(err, result, next){
-  // result = {
-  //   client: FirefoxClient,
-  //   result: appId
-  // }
-  next(err);
-})
-```
+## Copyright
 
-## Examples
+Copyright (c) 2015 [Mozilla](https://mozilla.org)
+([Contributors](https://github.com/mozilla/node-firefox-install-app/graphs/contributors)).
 
-#### Using firefox-client
-
-```javascript
-var FirefoxClient = require("firefox-client");
-var deploy = require('fxos-deploy');
-var client = new FirefoxClient();
-
-client.connect(1234, function(err) {
-  deploy({
-    zip: 'nicola.zip',
-    manifestURL: 'manifest.webapp',
-    client: client
-  }, function(err, appId){
-    console.log("deployed:", appId);
-    client.disconnect();
-  });
-});
-```
-
-#### Using fxos-start
-
-```javascript
-var start = require('fxos-start');
-var deploy = require('fxos-deploy');
-
-start(function(err, sim) {
-  deploy({
-    manifestURL: 'manifest.webapp',
-    zip:'nicola.zip',
-    client: sim.client
-  }, function(err, appId){
-    console.log("deployed with ID:", appId);
-    sim.client.disconnect();
-  })
-})
-```
-
-#### Using fxos-connect
-
-```javascript
-var connect = require('fxos-connect');
-var deploy = require('fxos-deploy');
-
-connect().then(function(sim) {
-  return deploy({
-    manifestURL: 'manifest.webapp',
-    zip:'nicola.zip',
-    client: sim.client
-  }).then(sim.client.disconnect);
-});
-```

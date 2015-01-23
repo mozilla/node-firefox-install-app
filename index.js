@@ -1,61 +1,95 @@
-var Connect = require('fxos-connect');
-var FindApp = require('fxos-findapp');
-var FirefoxClient = require('firefox-client');
+'use strict';
+
+// See https://github.com/jshint/jshint/issues/1747 for context
+/* global -Promise */
+var Promise = require('es6-Promise').Promise;
 var fs = require('fs');
-var Q = require('q');
 var uuid = require('node-uuid');
-var __ = require('underscore');
-var path = require('path');
+var zipFolder = require('zip-folder');
+var temporary = require('temporary');
 
-module.exports = deployB2G;
+module.exports = function(options) {
 
-function deployB2G (opts, callback) {
+  options = options || {};
 
-  opts = opts ? __.clone(opts) : {};
-  // Missing manifest or zip
-  if (!opts.manifestURL || !opts.zip) {
-    throw new Error('No manifest or zip file');
-  }
+  var appPath = options.appPath;
+  var client = options.client;
 
-  // Resolving paths
-  opts.manifestURL = path.resolve(opts.manifestURL);
-  opts.zip = path.resolve(opts.zip);
+  return new Promise(function(resolve, reject) {
 
-  // UUID of the app
-  var appId = uuid.v1();
-  var webappsActor = Q.ninvoke(opts.client, 'getWebapps');
-  var appActor = FindApp(opts);
-
-  function uninstall () {
-    return Q.all([webappsActor, appActor]).spread(function(webapps, app) {
-      return Q.ninvoke(webapps, 'uninstall', app.manifest.manifestURL);
-    })
-    .catch(function(err) {
-      console.log("WARN fxos-deploy:",err);
-    });
-  }
-
-  function install () {
-    return webappsActor.then(function(webapps) {
-      return Q.ninvoke(webapps, 'installPackaged', opts.zip, appId);
-    });
-  }
-
-  function launch() {
-    if (opts.launch !== false) {
-      return webappsActor.then(function(webapps) {
-        return Q.ninvoke(webapps, 'launch', 'app://'+appId+'/manifest.webapp');
-      });
+    if (appPath === undefined || client === undefined) {
+      return reject(new Error('App path and client are required to install an app'));
     }
-    return Q();
-  }
 
-  return uninstall()
-    .then(install)
-    .then(launch)
-    .then(function() {
-      return appId;
-    })
-    .nodeify(callback);
+    // TODO: we can also install hosted apps using the client!
+    // TODO: do we need to uninstall the app? (it's an unexpected side effect!)
+    // TODO: optionally launch app
+
+    Promise.all([ zipApp(appPath), getWebAppsActor(client) ]).then(function(results) {
+
+      var packagedAppPath = results[0];
+      var webAppsActor = results[1];
+      var appId = uuid.v1();
+
+      installApp(webAppsActor, packagedAppPath, appId).then(function(result) {
+        resolve(result);
+        deleteFile(packagedAppPath);
+      }, function(err) {
+        reject(err);
+        deleteFile(packagedAppPath);
+      });
+
+    });
+
+  });
+
+};
+
+
+function zipApp(appPath) {
+
+  var zipPath = new temporary.File().path;
+
+  return new Promise(function(resolve, reject) {
+    zipFolder(appPath, zipPath, function(err) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(zipPath);
+      }
+    });
+  });
 
 }
+
+
+function getWebAppsActor(client) {
+  return new Promise(function(resolve, reject) {
+
+    client.getWebapps(function(err, webAppsActor) {
+      if (err) {
+        return reject(err);
+      }
+      resolve(webAppsActor);
+    });
+
+  });
+}
+
+
+function installApp(webAppsActor, packagedAppPath, appId) {
+  return new Promise(function(resolve, reject) {
+    webAppsActor.installPackaged(packagedAppPath, appId, function(err, actualAppId) {
+      if (err) {
+        return reject(err);
+      }
+      resolve(actualAppId);
+    });
+  });
+}
+
+
+function deleteFile(filePath) {
+  fs.unlinkSync(filePath);
+}
+

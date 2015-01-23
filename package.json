@@ -1,45 +1,42 @@
 {
-  "name": "fxos-deploy",
-  "version": "0.3.2",
-  "description": "Deploy apps to FirefoxOS",
+  "name": "node-firefox-install-app",
+  "version": "1.0.0",
+  "description": "Install an app to a Firefox runtime",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "gulp": "gulp",
+    "test": "gulp test"
   },
   "keywords": [
     "firefox",
     "developer tools",
     "b2g",
-    "firefoxos",
+    "firefox os",
     "fxos",
     "webapps"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/nicola/fxos-deploy.git"
+    "url": "https://github.com/mozilla/node-firefox-install-app.git"
   },
-  "author": "Nicola Greco <me@nicola.io> (http://nicolagreco.com/)",
-  "license": "ISC",
+  "author": "Mozilla (https://mozilla.org/)",
+  "license": "Apache 2",
   "bugs": {
-    "url": "https://github.com/nicola/fxos-deploy/issues"
+    "url": "https://github.com/mozilla/node-firefox-install-app/issues"
   },
-  "homepage": "https://github.com/nicola/fxos-deploy",
+  "homepage": "https://github.com/mozilla/node-firefox-install-app/",
   "dependencies": {
-    "firefox-app-validator-manifest": "^1.0.5",
-    "firefox-client": "^0.3.0",
-    "fxos-connect": "^0.3.0",
-    "fxos-findapp": "^0.3.0",
-    "node-uuid": "^1.4.1",
-    "nomnom": "^1.8.0",
-    "q": "^1.0.1",
-    "underscore": "^1.7.0"
-  },
-  "bin": {
-    "fxos-deploy": "./bin/fxos-deploy.js"
+    "es6-promise": "^2.0.1",
+    "node-uuid": "^1.4.2",
+    "temporary": "0.0.8",
+    "zip-folder": "^1.0.0"
   },
   "devDependencies": {
-    "fx-ports": "^0.3.0",
+    "gulp": "^3.8.10",
     "mocha": "^1.21.4",
+    "node-firefox-build-tools": "^0.2.0",
+    "node-firefox-connect": "^1.0.0",
+    "node-firefox-start-simulator": "^1.1.0",
     "should": "^4.0.4"
   }
 }
