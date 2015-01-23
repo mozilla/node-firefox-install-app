@@ -44,36 +44,35 @@ installApp(options) // returns a Promise
 
 where `options` is a plain `Object` which must contain the following:
 
-* `manifest`: the manifest contents, in JSON format
-* `client`: the remote client where we want to find if this app is installed
+* `appPath`: path to the app folder
+* `client`: the remote client where we want to install this app
 
-If no `options` are provided, or if `options` is an empty `Object` (`{}`), then `findApp` will fail (how can you find *you don't know what app exactly* in *you don't know where*?)
+If no `options` are provided, or if `options` is an empty `Object` (`{}`), then `installApp` will fail (how can you install *you don't know what app exactly* in *you don't know where*?)
 
 
-### Finding apps in simulators, using the manifest JSON contents
+### Installing a packaged app on a simulator
+
+This is done by passing the path to the app folder:
 
 ```javascript
-var findApp = require('node-firefox-install-app');
 var startSimulator = require('node-firefox-start-simulator');
-var manifestJSON = loadJSON('manifest.webapp');
+var connect = require('node-firefox-connect');
+var installApp = require('node-firefox-install-app');
 
-startSimulator().then(function(client) {
-
-  findApp({
-    manifest: manifestJSON,
-    client: client
-  }).then(function(apps) {
-    if(apps.length === 0) {
-      console.log('Not installed');
-    }
+startSimulator().then(function(simulator) {
+  connect(simulator.port).then(function(client) {
+    installApp({
+      appPath: appPath,
+      client: client
+    }).then(function(appId) {
+      console.log('App was installed with appId = ', appId);
+    }, function(error) {
+      console.error('App could not be installed: ', error);
+    });
   });
+});
 
-}, onError);
 
-
-function onError(err) {
-  console.error(err);
-}
 
 ```
 
@@ -99,7 +98,7 @@ Our tests include unit tests as well as code quality ("linting") tests that make
 
 ## History
 
-This is based on initial work on [fxos-findapp](https://github.com/nicola/fxos-findapp) by Nicola Greco.
+This is based on initial work on [fxos-deploy](https://github.com/nicola/fxos-deploy) by Nicola Greco.
 
 ## License
 

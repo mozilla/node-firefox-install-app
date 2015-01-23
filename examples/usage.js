@@ -16,8 +16,8 @@ startSimulator().then(function(simulator) {
     installApp({
       appPath: appPath,
       client: client
-    }).then(function(result) {
-      console.log('install results', result);
+    }).then(function(appId) {
+      console.log('App was installed with appId = ', appId);
     }, function(error) {
       console.error('App could not be installed: ', error);
     });
