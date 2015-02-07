@@ -2,7 +2,7 @@
 
 // See https://github.com/jshint/jshint/issues/1747 for context
 /* global -Promise */
-var Promise = require('es6-Promise').Promise;
+var Promise = require('es6-promise').Promise;
 var fs = require('fs');
 var uuid = require('node-uuid');
 var zipFolder = require('zip-folder');
