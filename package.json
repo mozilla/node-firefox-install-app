@@ -34,9 +34,11 @@
   "devDependencies": {
     "gulp": "^3.8.10",
     "mocha": "^1.21.4",
+    "mockery": "^1.4.0",
     "node-firefox-build-tools": "^0.2.0",
     "node-firefox-connect": "^1.0.0",
     "node-firefox-start-simulator": "^1.1.0",
+    "nodemock": "^0.3.4",
     "should": "^4.0.4"
   }
 }
