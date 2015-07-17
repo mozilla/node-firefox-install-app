@@ -28,13 +28,9 @@ npm install
 
 ### npm
 
-<!--
 ```bash
 npm install node-firefox-install-app
 ```
--->
-
-This module is not on npm yet.
 
 ## Usage
 
